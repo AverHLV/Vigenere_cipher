@@ -103,7 +103,7 @@ def get_cm_statistics(string, r):
     :param r: length of period
     """
 
-    print('r =', r, 'D =', sum([1 if i == i + r else 0 for i in range(len(string) - r)]))
+    print('r =', r, 'D =', sum([1 if string[i] == string[i + r] else 0 for i in range(len(string) - r)]))
 
 
 def encrypt(string, key):
@@ -169,7 +169,7 @@ def get_key_letter(x, y):
 
 if __name__ == '__main__':
     start = time()
-    text = open_text('text_for_dec.in')
+    text = open_text('text_large.in')
 
     # H1
     # get_entropy(probability(get_symbols_freq(text), len(text)), 1)
