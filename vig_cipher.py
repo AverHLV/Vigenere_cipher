@@ -95,7 +95,7 @@ def affinity_index(f_dict, power):
     print('I =', round(index, 6))
 
 
-def get_cm_statistics(string, r):
+def cm_statistics(string, r):
     """
     Get character matches statistics
 
@@ -177,6 +177,10 @@ if __name__ == '__main__':
     # H2
     # f_big_dict = get_bg_freq(text, 1)
     # get_entropy(probability(f_big_dict, sum(f_big_dict.values())), 2)
+    
+    # Key length
+    '''for i in range(6, 31):
+        cm_statistics(text, i)'''
 
     # Getting key
     '''key_d = ''
