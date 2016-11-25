@@ -1,5 +1,5 @@
 # coding: utf8
-from pandas import DataFrame, set_option, reset_option
+from pandas import DataFrame, set_option
 from collections import Counter
 from re import sub
 from math import log2
@@ -53,14 +53,13 @@ def get_bg_freq(string, step, show=False):
             f_dict[string[i] + string[i + 1]] = 1
 
     if show:
-        df = DataFrame(data=0, index=ALPHABET, columns=ALPHABET)
+        df = DataFrame(data=0, index=list(ALPHABET), columns=list(ALPHABET))
 
         for i in f_dict:
             df.set_value(i[0], i[1], f_dict[i])
 
         set_option('display.max_columns', 10)
         print(df)
-        reset_option('display.max_columns')
 
     return f_dict
 
@@ -156,20 +155,27 @@ def split_text(string, r):
     return [string[i::r] for i in range(r)]
 
 
-def get_key_letter(x, y):
+def deduce_key(cipher_text, period, f_letter='о'):
     """
-    Get letter of key by formula x - y (mod m)
+    Deducing key from cipher text blocks by formula (x - y)mod m
 
-    :param x: most frequently letter in language
-    :param y: most frequently letter in segment
-    :return: letter of key
+    :param cipher_text: str
+    :param period: key length
+    :param f_letter: most frequent letter in language
+    :return: key (str)
     """
 
-    return ALPHABET_WS[(ALPHABET_WS.index(y) - ALPHABET_WS.index(x)) % len(ALPHABET_WS)]
+    key = ''
+
+    for segment in split_text(cipher_text, period):
+        key += ALPHABET_WS[(ALPHABET_WS.index(get_symbols_freq(segment, get_letter=True)) - ALPHABET_WS.index(f_letter))
+                           % len(ALPHABET_WS)]
+
+    print(key)
 
 if __name__ == '__main__':
     start = time()
-    text = open_text('text_large.in')
+    text = open_text('text_for_dec.in')
 
     # H1
     # get_entropy(probability(get_symbols_freq(text), len(text)), 1)
@@ -183,12 +189,7 @@ if __name__ == '__main__':
         cm_statistics(text, i)'''
 
     # Getting key
-    '''key_d = ''
-
-    for segment in split_text(text, 17):
-        key_d += get_key_letter('о', get_symbols_freq(segment, get_letter=True))
-
-    print(key_d)'''
+    # deduce_key(text, 17)
 
     # Decrypting
     # save_text('text_decrypted.in', decrypt(text, 'возвращениеджинна'))
