@@ -3,7 +3,7 @@
 
 Vigenere cipher, encryption, decryption, cryptanalysis. Frequency analysis.
 
-## Requiments
+## Required modules
 * pandas
 
 ## Usage
